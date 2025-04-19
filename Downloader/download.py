@@ -27,9 +27,10 @@ def delete_zip():
         os.remove(WORKING_ZIP_PATH)
 
 
-sync_onedrive()
+#sync_onedrive()
 if ONEDRIVE_ZIP_PATH.exists():
-    shutil.copy2(ONEDRIVE_ZIP_PATH, WORKING_ZIP_PATH)
+    #shutil.copy2(ONEDRIVE_ZIP_PATH, WORKING_ZIP_PATH)
+    subprocess.run(["rclone", "copy", ONEDRIVE_ZIP_PATH, DEST_FOLDER], check=True)
     extract_zip()
     print("Game files updated successfully.")
 else:
