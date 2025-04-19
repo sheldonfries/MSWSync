@@ -5,15 +5,16 @@ import config
 
 # Configuration
 ONEDRIVE_ZIP_PATH = os.path.join(config.onedrive_path, config.zip_file_name)
-DEST_FOLDER = os.path.join(config.destination_path, config.zip_file_name)
 WORKING_ZIP_PATH = os.path.join(config.download_path, config.zip_file_name)
 
 def pull_from_onedrive():
-    subprocess.run(["rclone", "copy", ONEDRIVE_ZIP_PATH, config.destination_path], check=True)
+    print("Pulling data from OneDrive...")
+    subprocess.run(["rclone", "copy", ONEDRIVE_ZIP_PATH, config.download_path], check=True)
 
 def extract_zip():
+    print("Extracting zip folder...")
     with zipfile.ZipFile(WORKING_ZIP_PATH, "r") as zip_ref:
-        zip_ref.extractall(DEST_FOLDER)
+        zip_ref.extractall(config.destination_path)
 
 def delete_zip():
     if os.path.exists(WORKING_ZIP_PATH):
