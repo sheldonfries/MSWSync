@@ -19,11 +19,13 @@ only upload a new copy of the zip file if it detects a change in the game files.
 1. Run the **Uploader** to push a zipped copy of your MSW folder to your OneDrive folder.
 
 **Downloader**
-1. Install [rclone](https://rclone.org/downloads/) on your Linux machine.
+1. Install [rclone](https://rclone.org/downloads/) on your Linux machine and configure it for [OneDrive](https://rclone.org/onedrive/).
 1. Download the **Downloader** portion of the MSWSync tool on your Linux machine.
 1. Open the `config.py` in a text editor and edit the configurations to point to the appropriate locations on your machine. See [Linux Configurations](#linux-configurations) for more detail.
-1. Run the **Downloader** to pull the zip file from OneDrive, unzip it, and move the contents to your MSW folder.
-1. (Optional) If running on a Steam Deck, add the unzipped location to Steam as a Non-Steam Game to enable running from Gaming Mode.
+1. Right-click on `Downloader.sh` and go to Properties > Permissions, and check the 'Is Executable' option. Press OK.
+1. (Optional) If running on a Steam Deck, `Downloader.sh` can be added as a Non-Steam Game for easy access.
+1. Run `Downloader.sh` to pull the zip file from OneDrive, unzip it, and move the contents to your MSW folder.
+1. (Optional) If running on a Steam Deck, add MSW.exe in the unzipped location to Steam as a Non-Steam Game to enable running from Gaming Mode. Use Proton Experimental under Compatibility.
 
 ## Windows Configurations
 - LocalGameFolder: The folder containing your MSW installation.

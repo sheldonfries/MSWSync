@@ -1,0 +1,1 @@
+konsole -e python download.py
