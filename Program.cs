@@ -54,7 +54,11 @@ class Program
     static string GetExecutableVersion(string? executablePath, string existingVersion)
     {
         var versionInfo = FileVersionInfo.GetVersionInfo(executablePath!);
-        string currentVersion = versionInfo.FileVersion ?? DEFAULT_VERSION;
+        string fileVersion = string.Format("{0}.{1}.{2}.{3}", versionInfo.FileMajorPart,
+                                                              versionInfo.FileMinorPart,
+                                                              versionInfo.FileBuildPart,
+                                                              versionInfo.FilePrivatePart);
+        string currentVersion = fileVersion ?? DEFAULT_VERSION;
         return currentVersion;
     }
 
