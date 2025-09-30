@@ -42,7 +42,7 @@ class Program
         Console.ReadKey();
     }
 
-    static string GetExistingVersion(string? versionFilePath)
+    static string GetExistingChecksum(string? versionFilePath)
     {
         string version = DEFAULT_VERSION;
         if (File.Exists(versionFilePath))
@@ -52,7 +52,7 @@ class Program
         return version;
     }
 
-    static string GetExecutableHash(string executablePath)
+    static string GetExecutableChecksum(string executablePath)
     {
         using (var md5 = MD5.Create())
         {
