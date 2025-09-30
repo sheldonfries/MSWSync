@@ -1,6 +1,7 @@
 ﻿using System.IO.Compression;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
+using System.Security.Cryptography;
 
 class Program
 {
@@ -23,14 +24,14 @@ class Program
         string archivePath = Path.Combine(oneDriveFolder!, archiveName!);
         string versionFilePath = Path.Combine(oneDriveFolder!, versionFile);
 
-        string existingVersion = GetExistingVersion(versionFilePath);
-        string currentVersion = GetExecutableVersion(executablePath, existingVersion);
+        string existingChecksum = GetExistingChecksum(versionFilePath);
+        string currentChecksum = GetExecutableChecksum(executablePath);
 
-        bool versionHasChanged = !currentVersion.Equals(existingVersion);
+        bool versionHasChanged = !currentChecksum.Equals(existingChecksum);
         if (versionHasChanged)
         {
             PrepareZipFolder(archivePath, gameFolder!);
-            File.WriteAllText(versionFilePath, currentVersion);
+            File.WriteAllText(versionFilePath, currentChecksum);
         }
         else
         {
@@ -50,16 +51,17 @@ class Program
         }
         return version;
     }
-    
-    static string GetExecutableVersion(string? executablePath, string existingVersion)
+
+    static string GetExecutableHash(string executablePath)
     {
-        var versionInfo = FileVersionInfo.GetVersionInfo(executablePath!);
-        string fileVersion = string.Format("{0}.{1}.{2}.{3}", versionInfo.FileMajorPart,
-                                                              versionInfo.FileMinorPart,
-                                                              versionInfo.FileBuildPart,
-                                                              versionInfo.FilePrivatePart);
-        string currentVersion = fileVersion ?? DEFAULT_VERSION;
-        return currentVersion;
+        using (var md5 = MD5.Create())
+        {
+            using (var stream = File.OpenRead(executablePath))
+            {
+                var hash = md5.ComputeHash(stream);
+                return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+            }
+        }
     }
 
     static void PrepareZipFolder(string archivePath, string gameFolder)
